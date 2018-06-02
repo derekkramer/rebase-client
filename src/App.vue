@@ -1,7 +1,15 @@
 <template>
   <v-app>
-    <v-toolbar
-      app>
+    <v-toolbar>
+      <v-toolbar-title @click="home">Rebase</v-toolbar-title>
+      <v-spacer></v-spacer>
+      <v-toolbar-items v-if="!user" class="hidden-sm-and-down">
+        <v-btn flat :to="{ name: 'login' }">Login</v-btn>
+        <v-btn flat :to="{ name: 'register' }">Register</v-btn>
+      </v-toolbar-items>
+      <v-toolbar-items v-if="user" class="hidden-sm-and-down">
+        <v-btn flat @click="logout">Logout</v-btn>
+      </v-toolbar-items>
     </v-toolbar>
     <v-content>
       <router-view/>
@@ -17,22 +25,26 @@ import { mapActions, mapState } from 'vuex';
 
 export default {
   name: 'App',
-  data () {
+  data() {
     return {
       fixed: false,
-    }
+    };
   },
-  mounted() {
-    this.authenticate()
-    .then((result) => {
-      console.log('LOGGED IN');
-      this.$router.push('/articles');
-    }).catch(e => {
-      console.error('Authentication error', e);
-    });
+  computed: {
+    ...mapState('auth', { user: 'payload' }),
   },
   methods: {
-    ...mapActions('auth', ['authenticate'])
+    ...mapActions('auth', { authLogout: 'logout' }),
+    logout() {
+      this.authLogout()
+        .then(() => {
+          this.$router.push('/home');
+        });
+    },
+    home() {
+      console.log('home');
+      this.$router.push('/home');
+    },
   },
 };
 </script>

@@ -58,7 +58,7 @@ import { mapState } from 'vuex';
 
 export default {
   name: 'register',
-  data: (vm) => ({
+  data: vm => ({
     valid: false,
     user: {
       email: '',
@@ -67,8 +67,8 @@ export default {
       displayName: '',
       imageUrl: '',
     },
-    notEmptyRules: [(value) => !!value || 'Cannot be empty'],
-    confirmPasswordRules: [(confirmPassword) => confirmPassword === vm.user.password || 'Password must match' ]
+    notEmptyRules: [value => !!value || 'Cannot be empty'],
+    confirmPasswordRules: [confirmPassword => confirmPassword === vm.user.password || 'Password must match'],
   }),
   computed: {
     ...mapState('users', { loading: 'isCreatePending' }),
@@ -79,8 +79,7 @@ export default {
         const { User } = this.$FeathersVuex;
         const user = new User(this.user);
         user.save()
-          .then(user => {
-            console.log(user);
+          .then(() => {
             this.$router.push('/login');
           });
       }

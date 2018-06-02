@@ -45,7 +45,7 @@ export default {
       email: '',
       password: '',
     },
-    notEmptyRules: [(value) => !!value || 'Cannot be empty'],
+    notEmptyRules: [value => !!value || 'Cannot be empty'],
   }),
   computed: {
     ...mapState('auth', { loading: 'isAuthenticatePending' }),
@@ -57,9 +57,9 @@ export default {
         this.authenticate({
           strategy: 'local',
           ...this.user,
-        }).then((result) => {
+        }).then(() => {
           this.$router.push('/articles');
-        }).catch(e => {
+        }).catch((e) => {
           console.error('Authentication error', e);
         });
       }
