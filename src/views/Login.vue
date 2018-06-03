@@ -1,7 +1,7 @@
 <template>
   <v-container fluid>
     <v-slide-y-transition mode="out-in">
-      <v-layout column align-center>
+      <v-layout column justify-center align-center>
         <v-form
           v-if="!loading"
           v-model="valid"
@@ -11,14 +11,12 @@
             v-model="user.email"
             :rules="notEmptyRules"
             label="Email"
-            required
           ></v-text-field>
           <v-text-field
             v-model="user.password"
             :rules="notEmptyRules"
             label="Password"
             type="password"
-            required
           ></v-text-field>
           <v-btn type="submit" :disabled="!valid">Login</v-btn>
         </v-form>

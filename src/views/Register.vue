@@ -40,6 +40,15 @@
             required
           ></v-text-field>
           <v-btn type="submit" :disabled="!valid">Register</v-btn>
+          <v-alert
+            v-model="error.status"
+            :value="false"
+            outline
+            color="error"
+            icon="warning"
+            transition="scale-transition"
+            class="mt-3"
+            >{{error.text}}</v-alert>
         </v-form>
         <v-progress-circular
           v-if="loading"
@@ -56,10 +65,19 @@
 <script>
 import { mapState } from 'vuex';
 
+
+function capitalize(string) {
+  return string.charAt(0).toUpperCase() + string.slice(1);
+}
+
 export default {
   name: 'register',
   data: vm => ({
     valid: false,
+    error: {
+      status: false,
+      text: '',
+    },
     user: {
       email: '',
       password: '',
@@ -81,8 +99,19 @@ export default {
         user.save()
           .then(() => {
             this.$router.push('/login');
+          })
+          .catch((err) => {
+            this.showError(err);
           });
       }
+    },
+    showError(err) {
+      this.error.text = err.message ? capitalize(err.message) : 'Error';
+      this.error.status = !this.error.status;
+      setTimeout(() => {
+        this.error.status = !this.error.status;
+        this.error.text = '';
+      }, 3000);
     },
   },
 };

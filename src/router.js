@@ -4,25 +4,30 @@ import Home from './views/Home.vue';
 import Register from './views/Register.vue';
 import Login from './views/Login.vue';
 import Articles from './views/Articles.vue';
-import store from './store';
+import Article from './views/Article.vue';
+import Create from './views/Create.vue';
+// import store from './store';
 
 Vue.use(Router);
+
+// function loggedIn(to, from, next) {
+//   store.dispatch('auth/authenticate')
+//     .then(() => next())
+//     .catch(() => next('/login'));
+// }
 
 export default new Router({
   mode: 'history',
   routes: [
     {
       path: '/',
+      name: 'index',
+      component: Home,
+    },
+    {
+      path: '/home',
       name: 'home',
       component: Home,
-      beforeEnter(to, from, next) {
-        store.dispatch('auth/authenticate')
-          .then(() => {
-            next('/articles');
-          }).catch(() => {
-            next('/login');
-          });
-      },
     },
     {
       path: '/register',
@@ -38,14 +43,16 @@ export default new Router({
       path: '/articles',
       name: 'articles',
       component: Articles,
-      beforeEnter(to, from, next) {
-        store.dispatch('auth/authenticate')
-          .then(() => {
-            next();
-          }).catch(() => {
-            next('/login');
-          });
-      },
+    },
+    {
+      path: '/articles/:id',
+      name: 'articleView',
+      component: Article,
+    },
+    {
+      path: '/admin/create',
+      name: 'create',
+      component: Create,
     },
   ],
 });

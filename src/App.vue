@@ -25,11 +25,11 @@ import { mapActions, mapState } from 'vuex';
 
 export default {
   name: 'App',
-  data() {
-    return {
-      fixed: false,
-    };
-  },
+  data: () => ({
+    exists: false,
+    fixed: false,
+    loaded: false,
+  }),
   mounted() {
     this.login();
   },
