@@ -38,6 +38,14 @@ export default new Router({
       path: '/articles',
       name: 'articles',
       component: Articles,
+      beforeEnter(to, from, next) {
+        store.dispatch('auth/authenticate')
+          .then(() => {
+            next();
+          }).catch(() => {
+            next('/login');
+          });
+      },
     },
   ],
 });

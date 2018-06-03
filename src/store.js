@@ -24,6 +24,12 @@ export default new Vuex.Store({
         imageUrl: '',
       },
     }),
+    service('articles', {
+      instanceDefaults: {
+        title: '',
+        body: '',
+      },
+    }),
     auth({
       userService: 'users',
     }),

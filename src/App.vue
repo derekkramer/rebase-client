@@ -30,11 +30,23 @@ export default {
       fixed: false,
     };
   },
+  mounted() {
+    this.login();
+  },
   computed: {
     ...mapState('auth', { user: 'payload' }),
   },
   methods: {
-    ...mapActions('auth', { authLogout: 'logout' }),
+    ...mapActions('auth', {
+      authLogout: 'logout',
+      authCheck: 'authenticate',
+    }),
+    login() {
+      this.authCheck()
+        .catch((e) => {
+          console.error('Authentication error', e);
+        });
+    },
     logout() {
       this.authLogout()
         .then(() => {
@@ -42,7 +54,6 @@ export default {
         });
     },
     home() {
-      console.log('home');
       this.$router.push('/home');
     },
   },
